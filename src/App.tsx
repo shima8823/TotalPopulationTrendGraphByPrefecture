@@ -1,26 +1,39 @@
-import React from 'react';
-import logo from './logo.svg';
+import React, { useState } from 'react';
 import './App.css';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
-}
+const RESAS_BASEURL = "https://opendata.resas-portal.go.jp/"
 
-export default App;
+const globalData = {
+	0 : "青森県",
+	1 : "新潟県",
+};
+
+export default function MyApp() {
+	const [listOfPrefecture, setListOfPrefecture] = useState<Object | null>(globalData);
+
+	const onChange = (e: any) => {
+		console.log("Checked")
+	}
+	return (
+		<div>
+				{listOfPrefecture ? (
+					Object.entries(listOfPrefecture).map(([key, value]) => (
+						<div key={key}>
+							<input
+								id={key}
+								type="checkbox"
+								value={value}
+								onChange={onChange}
+							/>
+							<label>{value}</label>
+
+						</div>
+					))
+				) : (
+					"Loading..."
+				)}
+				{}
+
+		</div>
+	)
+}
