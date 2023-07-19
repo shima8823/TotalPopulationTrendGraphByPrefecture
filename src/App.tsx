@@ -1,38 +1,51 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import './App.css';
+import axios from "axios";
 
 const RESAS_BASEURL = "https://opendata.resas-portal.go.jp/"
 
-const globalData = {
-	0 : "青森県",
-	1 : "新潟県",
-};
+interface PrefecturesData {
+	prefCode: number,
+	prefName: string
+}
 
 export default function MyApp() {
-	const [listOfPrefecture, setListOfPrefecture] = useState<Object | null>(globalData);
+	const [arrayOfPrefecture, setListOfPrefecture] = useState<PrefecturesData[] | null>(null);
 
-	const onChange = (e: any) => {
+	useEffect(() => {
+		axios.get(RESAS_BASEURL + 'api/v1/prefectures', {headers: {'X-API-KEY': process.env.REACT_APP_RESAS_KEY}})
+		.then(function(res) {
+			Object.entries(res.data.result).map(([key, value]) => (
+				console.log(key, value)
+			))
+			setListOfPrefecture(res.data.result)
+		}).catch(function(err) {
+			console.log(err)
+		})
+	}, [])
+
+
+	const onChange = (e: any) =>  {
 		console.log("Checked")
 	}
 	return (
 		<div>
-				{listOfPrefecture ? (
-					Object.entries(listOfPrefecture).map(([key, value]) => (
-						<div key={key}>
+				{arrayOfPrefecture ? (
+					arrayOfPrefecture.map((prefecture) => (
+						<div key={prefecture.prefCode}>
 							<input
-								id={key}
+								id={prefecture.prefName}
 								type="checkbox"
-								value={value}
+								value={prefecture.prefName}
 								onChange={onChange}
 							/>
-							<label>{value}</label>
-
+						<label>{prefecture.prefName}</label>
 						</div>
 					))
-				) : (
+					) : (
 					"Loading..."
-				)}
-				{}
+				)
+			}
 
 		</div>
 	)
