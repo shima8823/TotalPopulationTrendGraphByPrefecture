@@ -18,5 +18,6 @@
     "react": {
       "version": "detect"
     }
-  }
+  },
+  "ignorePatterns": ["lint-staged.config.mjs"]
 }
