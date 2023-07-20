@@ -16,23 +16,16 @@ export default function MyApp() {
 
   useEffect(() => {
     axios
-      .get(RESAS_BASEURL + 'api/v1/prefectures', {
+      .get(`${RESAS_BASEURL}api/v1/prefectures`, {
         headers: { 'X-API-KEY': process.env.REACT_APP_RESAS_KEY }
       })
-      .then(function (res) {
-        Object.entries(res.data.result).map(([key, value]) =>
-          console.log(key, value)
-        )
+      .then((res) => {
         setListOfPrefecture(res.data.result)
       })
-      .catch(function (err) {
-        console.log(err)
-      })
+      .catch(() => {})
   }, [])
 
-  const onChange = (e: any) => {
-    console.log('Checked')
-  }
+  const onChange = () => {}
   return (
     <div>
       {arrayOfPrefecture
@@ -44,7 +37,7 @@ export default function MyApp() {
                 value={prefecture.prefName}
                 onChange={onChange}
               />
-              <label>{prefecture.prefName}</label>
+              <label htmlFor={prefecture.prefName}>{prefecture.prefName}</label>
             </div>
           ))
         : 'Loading...'}
