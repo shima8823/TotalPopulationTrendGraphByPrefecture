@@ -12,11 +12,24 @@
   },
   "plugins": ["react"],
   "rules": {
-    "react/jsx-filename-extension": [0, { "extensions": [".js", ".jsx"] }]
+    "react/jsx-filename-extension": [0, { "extensions": [".js", ".jsx"] }],
+    "import/extensions": [
+      "error",
+      "ignorePackages",
+      {
+        "js": "never",
+        "jsx": "never",
+        "ts": "never",
+        "tsx": "never"
+      }
+    ]
   },
   "settings": {
     "react": {
       "version": "detect"
+    },
+    "import/resolver": {
+      "typescript": {}
     }
   },
   "ignorePatterns": ["lint-staged.config.mjs"]
